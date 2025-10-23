@@ -6,7 +6,7 @@ import { CACHE_DURATION } from '@core/constants/cache-duration';
 const QUOTE_CACHE_KEY = 'quote_cache';
 const CACHE_EXPIRY_KEY = 'quote_cache_expiry';
 
-const API_ENDPOINTS = ['https://api.quotable.io/random', 'https://dummyjson.com/quotes/randomasd'];
+const API_ENDPOINTS = ['https://api.quotable.io/random', 'https://dummyjson.com/quotes/random'];
 
 @Injectable({ providedIn: 'root' })
 export class QuotesService {
