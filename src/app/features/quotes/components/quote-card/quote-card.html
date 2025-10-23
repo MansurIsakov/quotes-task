@@ -1,0 +1,70 @@
+<div class="w-full max-w-2xl mx-auto">
+  <div
+    class="bg-linear-to-br from-slate-900 via-slate-800 to-slate-900 rounded-2xl p-8 md:p-12 shadow-2xl border border-slate-700"
+  >
+    <blockquote class="mb-8">
+      <p class="text-2xl md:text-4xl font-serif text-white leading-relaxed">"{{ quote.text }}"</p>
+    </blockquote>
+
+    <div class="mb-8 flex items-center justify-between">
+      <p class="text-lg text-slate-300 font-medium">— {{ quote.author }}</p>
+      @if(quote.source && quote.source !== 'local') {
+      <span class="text-xs bg-slate-700 text-slate-200 px-3 py-1 rounded-full">
+        {{ quote.source }}
+      </span>
+      }
+    </div>
+
+    <div class="mb-8 pb-8 border-b border-slate-700">
+      <div class="flex items-center gap-2 mb-3 text-slate-400">
+        <i class="lucide-heart w-5 h-5"></i>
+        <span class="text-sm">Rate this quote</span>
+      </div>
+      <div class="flex gap-2">
+        @for(rating of [].constructor(5); track rating) {
+        <button
+          (click)="rate.emit(rating)"
+          class="w-10 h-10 rounded-lg font-semibold transition-all"
+          [class.bg-amber-500]="currentRating === rating"
+          [class.text-white]="currentRating === rating"
+          [class.scale-110]="currentRating === rating"
+          [class.bg-slate-700]="currentRating !== rating"
+          [class.text-slate-300]="currentRating !== rating"
+        >
+          {{ rating }}
+        </button>
+        }
+      </div>
+    </div>
+
+    <div class="flex flex-col sm:flex-row gap-3">
+      <button
+        (click)="next.emit()"
+        [disabled]="isLoading"
+        class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition-all"
+      >
+        @if(!isLoading) {
+
+        <span>Next Quote</span>
+        } @else {
+        <span class="flex items-center justify-center">
+          <i class="lucide-loader2 w-4 h-4 mr-2 animate-spin"></i> Loading...
+        </span>
+        }
+      </button>
+
+      <button
+        (click)="share.emit('twitter')"
+        class="flex-1 border border-slate-600 text-slate-300 hover:bg-slate-700 rounded-lg py-2"
+      >
+        Twitter
+      </button>
+      <button
+        (click)="share.emit('facebook')"
+        class="flex-1 border border-slate-600 text-slate-300 hover:bg-slate-700 rounded-lg py-2"
+      >
+        Facebook
+      </button>
+    </div>
+  </div>
+</div>

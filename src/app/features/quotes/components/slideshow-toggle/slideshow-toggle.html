@@ -1,0 +1,33 @@
+@let active = isActive();
+
+<div class="flex flex-col sm:flex-row gap-4 items-center justify-center">
+  <button
+    (click)="toggle.emit()"
+    class="text-white font-semibold px-4 py-2 rounded-lg"
+    [class.bg-red-600]="active"
+    [class.hover\:bg-red-700]="active"
+    [class.bg-green-600]="!active"
+    [class.hover\:bg-green-700]="!active"
+  >
+    @if(active) {
+    <span>⏸ Stop Slideshow</span>
+    } @else {
+    <span>▶️ Start Slideshow</span>
+    }
+  </button>
+
+  @if(active) {
+  <div class="flex items-center gap-3">
+    <label class="text-sm text-slate-400">Speed:</label>
+    <select
+      [value]="speed()"
+      (change)="speedChange.emit($any($event.target).value)"
+      class="bg-slate-700 text-white rounded px-3 py-2 text-sm border border-slate-600"
+    >
+      @for(option of slideshowOptions; track option.value) {
+      <option [value]="option.value">{{ option.label }}</option>
+      }
+    </select>
+  </div>
+  }
+</div>

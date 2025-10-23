@@ -1,0 +1,32 @@
+<main
+  class="min-h-screen bg-linear-to-b from-slate-950 via-slate-900 to-slate-950 flex flex-col items-center justify-center p-4"
+>
+  <div class="mb-12 text-center">
+    <h1 class="text-4xl md:text-5xl font-serif font-bold text-white mb-2">Daily Inspiration</h1>
+    <p class="text-slate-400 text-lg">{{ isOnline() ? 'Online' : 'Offline' }} Mode</p>
+  </div>
+
+  @if(quote(); as q) {
+  <app-quote-card
+    [quote]="q"
+    [isLoading]="isLoading()"
+    [currentRating]="currentRating()"
+    (next)="nextQuote()"
+    (rate)="handleRate($event)"
+    (share)="handleShare($event)"
+  />
+  }
+
+  <div class="mt-12">
+    <app-slideshow-toggle
+      [isActive]="slideshowActive()"
+      [speed]="slideshowSpeed()"
+      (toggle)="toggleSlideshow()"
+      (speedChange)="setSlideshowSpeed($event)"
+    />
+  </div>
+
+  <div class="mt-16 text-center text-slate-500 text-sm">
+    <p>Quotes from multiple sources • Offline support • Rate & Share</p>
+  </div>
+</main>
