@@ -8,7 +8,6 @@ import {
   signal,
 } from '@angular/core';
 import { QuotesService } from '../../services/quotes.service';
-import { getRating, saveRating } from '../../services/rating.service';
 import { Quote } from '../../types/quote';
 import { QuoteCardComponent } from '../../components/quote-card/quote-card';
 import { SlideshowToggleComponent } from '../../components/slideshow-toggle/slideshow-toggle';
@@ -16,6 +15,7 @@ import { ApplicationModeService } from '@core/services/application-mode.service'
 import { ShareService } from '@core/services/share.service';
 import { Platform } from '@core/types/platform';
 import { SlideshowService } from '@core/services/slideshow.service';
+import { RatingService } from '@features/quotes/services/rating.service';
 
 @Component({
   selector: 'app-quotes',
@@ -28,6 +28,7 @@ export class QuotesComponent implements OnInit, OnDestroy {
   private readonly quotesService = inject(QuotesService);
   private readonly appModeService = inject(ApplicationModeService);
   private readonly slideshowService = inject(SlideshowService);
+  private readonly ratingService = inject(RatingService);
   private readonly shareService = inject(ShareService);
 
   quote = signal<Quote | null>(null);
@@ -44,7 +45,7 @@ export class QuotesComponent implements OnInit, OnDestroy {
     try {
       const newQuote = await this.quotesService.getRandomQuote();
       this.quote.set(newQuote);
-      const rating = getRating(newQuote.text);
+      const rating = this.ratingService.getRating(newQuote.text);
       this.currentRating.set(rating);
     } catch (err) {
       console.error('Failed to fetch quote:', err);
@@ -90,7 +91,7 @@ export class QuotesComponent implements OnInit, OnDestroy {
   handleRate(rating: number): void {
     const q = this.quote();
     if (!q) return;
-    saveRating(q.text, rating);
+    this.ratingService.saveRating(q.text, rating);
     this.currentRating.set(rating);
   }
 

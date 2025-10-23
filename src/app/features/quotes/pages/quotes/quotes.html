@@ -2,7 +2,7 @@
   class="min-h-screen bg-linear-to-b from-slate-950 via-slate-900 to-slate-950 flex flex-col items-center justify-center p-4"
 >
   <div class="mb-12 text-center">
-    <h1 class="text-4xl md:text-5xl font-serif font-bold text-white mb-2">Daily Inspiration</h1>
+    <h1 class="text-4xl md:text-5xl font-serif font-bold text-white mb-2">Daily Quotes</h1>
     <p class="text-slate-400 text-lg">{{ isOnline() ? 'Online' : 'Offline' }} Mode</p>
   </div>
 
@@ -15,6 +15,8 @@
     (rate)="handleRate($event)"
     (share)="handleShare($event)"
   />
+  } @else {
+  <p class="text-slate-400">Loading quote...</p>
   }
 
   <div class="mt-12">
