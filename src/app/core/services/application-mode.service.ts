@@ -4,12 +4,12 @@ import { Injectable, signal } from '@angular/core';
   providedIn: 'root',
 })
 export class ApplicationModeService {
-  isOnline = signal<boolean>(true);
+  readonly isOnline = signal<boolean>(true);
 
-  handleOnline = () => this.isOnline.set(true);
-  handleOffline = () => this.isOnline.set(false);
+  handleOnline = (): void => this.isOnline.set(true);
+  handleOffline = (): void => this.isOnline.set(false);
 
-  setMode(online: boolean) {
+  setMode(online: boolean): void {
     this.isOnline.set(online);
   }
 }

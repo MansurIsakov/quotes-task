@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { Quote } from '../../types/quote';
-import { LucideAngularModule, HeartIcon, LucideLoader, Twitter, Facebook } from 'lucide-angular';
+import { Facebook, HeartIcon, LucideAngularModule, LucideLoader, Twitter } from 'lucide-angular';
 import { Platform } from '@core/types/platform';
 import { NgClass } from '@angular/common';
 
@@ -11,13 +11,13 @@ import { NgClass } from '@angular/common';
   imports: [LucideAngularModule, NgClass],
 })
 export class QuoteCardComponent {
-  @Input() quote!: Quote;
-  @Input() isLoading = false;
-  @Input() currentRating: number | null = null;
+  readonly quoteInput = input.required<Quote>();
+  readonly isLoading = input(false);
+  readonly currentRating = input<number | null>(null);
 
-  @Output() next = new EventEmitter<void>();
-  @Output() rate = new EventEmitter<number>();
-  @Output() share = new EventEmitter<Platform>();
+  readonly rateQuote = output<number>();
+  readonly nextQuote = output<void>();
+  readonly shareQuote = output<Platform>();
 
   showRating = false;
   icons = {
@@ -27,12 +27,12 @@ export class QuoteCardComponent {
     Facebook: Facebook,
   };
 
-  onRate(r: number) {
-    this.rate.emit(r);
+  onRate(r: number): void {
+    this.rateQuote.emit(r);
     this.showRating = false;
   }
 
-  onShare(platform: 'twitter' | 'facebook') {
-    this.share.emit(platform);
+  onShare(platform: 'twitter' | 'facebook'): void {
+    this.shareQuote.emit(platform);
   }
 }

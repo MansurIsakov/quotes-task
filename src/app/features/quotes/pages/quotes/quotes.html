@@ -6,25 +6,25 @@
     <p class="text-slate-400 text-lg">{{ isOnline() ? 'Online' : 'Offline' }} Mode</p>
   </div>
 
-  @if(quote(); as q) {
-  <app-quote-card
-    [quote]="q"
-    [isLoading]="isLoading()"
-    [currentRating]="currentRating()"
-    (next)="nextQuote()"
-    (rate)="handleRate($event)"
-    (share)="handleShare($event)"
-  />
+  @if (quote(); as q) {
+    <app-quote-card
+      [currentRating]="currentRating()"
+      [isLoading]="isLoading()"
+      [quoteInput]="q"
+      (nextQuote)="nextQuote()"
+      (rateQuote)="handleRate($event)"
+      (shareQuote)="handleShare($event)"
+    />
   } @else {
-  <p class="text-slate-400">Loading quote...</p>
+    <p class="text-slate-400">Loading quote...</p>
   }
 
   <div class="mt-12">
     <app-slideshow-toggle
       [isActive]="slideshowActive()"
       [speed]="slideshowSpeed()"
-      (toggle)="toggleSlideshow()"
       (speedChange)="setSlideshowSpeed($event)"
+      (toggleSlide)="toggleSlideshow()"
     />
   </div>
 

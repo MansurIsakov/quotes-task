@@ -31,9 +31,9 @@ export class QuotesComponent implements OnInit, OnDestroy {
   private readonly ratingService = inject(RatingService);
   private readonly shareService = inject(ShareService);
 
-  quote = signal<Quote | null>(null);
-  isLoading = signal<boolean>(true);
-  currentRating = signal<number | null>(null);
+  readonly quote = signal<Quote | null>(null);
+  readonly isLoading = signal<boolean>(true);
+  readonly currentRating = signal<number | null>(null);
   isOnline = this.appModeService.isOnline;
   slideshowActive = this.slideshowService.slideshowActive;
   slideshowSpeed = this.slideshowService.slideshowSpeed;
@@ -60,7 +60,7 @@ export class QuotesComponent implements OnInit, OnDestroy {
       const speed = this.slideshowService.slideshowSpeed();
 
       if (active) {
-        if (this._slideshowInterval) clearInterval(this._slideshowInterval);
+        if (this._slideshowInterval) {clearInterval(this._slideshowInterval);}
         this._slideshowInterval = setInterval(() => {
           this.fetchQuote();
         }, speed);
@@ -85,19 +85,19 @@ export class QuotesComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     window.removeEventListener('online', this.appModeService.handleOnline);
     window.removeEventListener('offline', this.appModeService.handleOffline);
-    if (this._slideshowInterval) clearInterval(this._slideshowInterval);
+    if (this._slideshowInterval) {clearInterval(this._slideshowInterval);}
   }
 
   handleRate(rating: number): void {
     const q = this.quote();
-    if (!q) return;
+    if (!q) {return;}
     this.ratingService.saveRating(q.text, rating);
     this.currentRating.set(rating);
   }
 
   handleShare(platform: Platform): void {
     const q = this.quote();
-    if (!q) return;
+    if (!q) {return;}
 
     const text = `"${q.text}" — ${q.author}`;
     this.shareService.handleShare(text, platform);

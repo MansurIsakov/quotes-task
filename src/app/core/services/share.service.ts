@@ -6,8 +6,10 @@ import { FACEBOOK_SHARE_LINK, TWITTER_TWEET_LINK } from '../constants/socials';
   providedIn: 'root',
 })
 export class ShareService {
-  handleShare(text: string, platform: Platform) {
-    if (!text) return;
+  handleShare(text: string, platform: Platform): void {
+    if (!text) {
+      return;
+    }
 
     const encodedText = encodeURIComponent(text);
     switch (platform) {
@@ -17,7 +19,7 @@ export class ShareService {
       case 'facebook':
         window.open(
           `${FACEBOOK_SHARE_LINK}${encodeURIComponent(window.location.href)}&quote=${encodedText}`,
-          '_blank'
+          '_blank',
         );
         break;
       default:

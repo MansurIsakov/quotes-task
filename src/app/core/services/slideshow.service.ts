@@ -3,14 +3,14 @@ import { SLIDES_SPEED } from '../constants/slides-speed';
 
 @Injectable()
 export class SlideshowService {
-  slideshowSpeed = signal<number>(SLIDES_SPEED);
-  slideshowActive = signal<boolean>(false);
+  readonly slideshowSpeed = signal<number>(SLIDES_SPEED);
+  readonly slideshowActive = signal<boolean>(false);
 
-  toggleSlideshow() {
+  toggleSlideshow(): void {
     this.slideshowActive.update((v) => !v);
   }
 
-  setSlideshowSpeed(ms: number) {
+  setSlideshowSpeed(ms: number): void {
     this.slideshowSpeed.set(ms);
   }
 }
