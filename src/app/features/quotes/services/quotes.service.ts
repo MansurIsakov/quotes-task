@@ -6,6 +6,7 @@ import { CACHE_DURATION } from '@core/constants/cache-duration';
 const QUOTE_CACHE_KEY = 'quote_cache';
 const CACHE_EXPIRY_KEY = 'quote_cache_expiry';
 
+// TODO: seperate HTTP actions to sepeare service named http-quotes.service.ts, this service can serve as facade
 const API_ENDPOINTS = ['https://api.quotable.io/random', 'https://dummyjson.com/quotes/random'];
 
 @Injectable({ providedIn: 'root' })
@@ -17,7 +18,9 @@ export class QuotesService {
       const resp = await fetch(url, { signal: controller.signal });
       clearTimeout(timeout);
 
-      if (!resp.ok) {return null;}
+      if (!resp.ok) {
+        return null;
+      }
       const data = await resp.json();
 
       if (data.content && data.author) {
@@ -33,7 +36,9 @@ export class QuotesService {
   }
 
   private getCachedQuote(): Quote | null {
-    if (typeof window === 'undefined') {return null;}
+    if (typeof window === 'undefined') {
+      return null;
+    }
     const cached = localStorage.getItem(QUOTE_CACHE_KEY);
     const expiry = localStorage.getItem(CACHE_EXPIRY_KEY);
 
@@ -51,7 +56,9 @@ export class QuotesService {
   }
 
   private setCachedQuote(q: Quote): void {
-    if (typeof window === 'undefined') {return;}
+    if (typeof window === 'undefined') {
+      return;
+    }
     localStorage.setItem(QUOTE_CACHE_KEY, JSON.stringify(q));
     localStorage.setItem(CACHE_EXPIRY_KEY, (Date.now() + CACHE_DURATION).toString());
   }
@@ -59,7 +66,9 @@ export class QuotesService {
   async getRandomQuote(): Promise<Quote> {
     const promises = API_ENDPOINTS.map(async (url) => {
       const quote = await this.fetchFromAPI(url);
-      if (!quote) {throw new Error(`Invalid response from ${url}`);}
+      if (!quote) {
+        throw new Error(`Invalid response from ${url}`);
+      }
       return quote;
     });
 
@@ -70,7 +79,9 @@ export class QuotesService {
     } catch {
       // fallback from cache or dummy quotes
       const cached = this.getCachedQuote();
-      if (cached) {return cached;}
+      if (cached) {
+        return cached;
+      }
 
       return DUMMY_QUOTES[Math.floor(Math.random() * DUMMY_QUOTES.length)];
     }
